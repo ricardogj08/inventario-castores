@@ -50,7 +50,17 @@ class AutenticacionController extends BaseController
                 ->with('error', 'Acceso no permitido');
         }
 
-        // Genera la cookie de autenticación.
-        service('response')->setCookie('userAuth', $user[$primaryKeyFieldName]);
+        // Genera la cookie de autenticación (24 horas).
+        service('response')->setCookie('userAuth', $user[$primaryKeyFieldName], 60 * 60 * 24);
+
+        return redirect()->route('movimientos.index')->withCookies();
+    }
+
+    // Cierra la sesión de un usuario.
+    public function logoutAction()
+    {
+        service('response')->deleteCookie('userAuth');
+
+        return redirect()->route('autenticacion.loginView')->withCookies();
     }
 }
