@@ -6,13 +6,6 @@
     <!-- Card del formulario de inicio de sesión -->
     <main class="card bg-base-100 shadow-xl sm:w-full sm:max-w-xl sm:mx-auto mx-4 my-auto">
         <div class="card-body">
-            <?php if (! empty(session()->getFlashdata('error'))): ?>
-                <?= view_cell('AlertMessageCell', [
-                    'type'    => 'error',
-                    'message' => session()->getFlashdata('error'),
-                ]) ?>
-            <?php endif ?>
-
             <h1 class="card-title">Iniciar sesión</h1>
 
             <!-- Formulario de inicio de sesión -->

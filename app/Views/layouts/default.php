@@ -9,5 +9,14 @@
 <body class="bg-base-200">
     <!-- Plantilla base para todas las plantillas -->
     <?= $this->renderSection('content') ?>
+
+    <?php foreach(['info', 'success', 'warning', 'error', 'default'] as $type): ?>
+        <?php if (! empty(session()->getFlashdata($type))): ?>
+            <?= view_cell('AlertMessageCell', [
+                'type'    => $type,
+                'message' => session()->getFlashdata($type),
+            ]) ?>
+        <?php endif ?>
+    <?php endforeach ?>
 </body>
 </html>
