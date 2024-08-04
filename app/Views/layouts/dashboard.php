@@ -1,11 +1,12 @@
 <?= $this->extend('layouts/default') ?>
 
 <?= $this->section('content') ?>
-    <div class="drawer md:drawer-open min-h-screen">
+    <!-- Plantilla base para todas las páginas del dashboard -->
+    <div class="drawer md:drawer-open">
         <input id="sidebar" type="checkbox" class="drawer-toggle">
 
         <!-- Contenido del dashboard -->
-        <div class="drawer-content flex flex-col">
+        <div class="drawer-content flex flex-col min-h-screen">
             <main class="card bg-base-100 shadow-xl m-6">
                 <div class="card-body">
                     <?= $this->renderSection('dashboard_content') ?>

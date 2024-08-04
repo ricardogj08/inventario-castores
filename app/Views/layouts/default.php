@@ -6,7 +6,8 @@
     <title><?= esc($this->renderSection('title')) ?></title>
     <link rel="stylesheet" href="<?= base_url('css/styles.css') ?>">
 </head>
-<body class="bg-base-200 min-h-screen flex flex-col">
+<body class="bg-base-200">
+    <!-- Plantilla base para todas las plantillas -->
     <?= $this->renderSection('content') ?>
 </body>
 </html>
