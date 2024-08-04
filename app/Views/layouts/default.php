@@ -10,6 +10,7 @@
     <!-- Plantilla base para todas las plantillas -->
     <?= $this->renderSection('content') ?>
 
+    <!-- Muestra mensajes de alerta -->
     <?php foreach(['info', 'success', 'warning', 'error', 'default'] as $type): ?>
         <?php if (! empty(session()->getFlashdata($type))): ?>
             <?= view_cell('AlertMessageCell', [

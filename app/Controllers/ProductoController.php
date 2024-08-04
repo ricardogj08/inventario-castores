@@ -48,10 +48,17 @@ class ProductoController extends BaseController
     {
         $productoModel = model(ProductoModel::class);
 
+        $query = $productoModel->select("{$productoModel->primaryKey} AS id, nombre, precio, cantidad, estatus, fecha_registro");
+
+        $userAuth = session('userAuth');
+
+        // Filtra los productos dependiendo del rol del usuario.
+        if ($userAuth['rol'] === 'Almacenista') {
+            $query->where('estatus', 1);
+        }
+
         // Consulta todos los productos registrados.
-        $products = $productoModel->select("{$productoModel->primaryKey} AS id, nombre, precio, cantidad, estatus, fecha_registro")
-            ->orderBy('fecha_registro', 'DESC')
-            ->findAll();
+        $products = $query->orderBy('fecha_registro', 'DESC')->findAll();
 
         $data = compact('products');
 

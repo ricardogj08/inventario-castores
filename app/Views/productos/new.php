@@ -3,7 +3,7 @@
 <?= $this->section('title') ?>Nuevo producto<?= $this->endSection() ?>
 
 <?= $this->section('dashboard_content') ?>
-    <div class="flex items-center justify-between flex-wrap gap-y-4">
+    <div class="flex items-center justify-between flex-wrap gap-4">
         <h1 class="card-title">Nuevo producto</h1>
 
         <a href="<?= url_to('productos.index') ?>" class="btn btn-sm">
