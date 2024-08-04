@@ -45,7 +45,10 @@ class AutenticacionFilter implements FilterInterface
             ->where("{$usuarioTableName}.estatus", 1)
             ->find($cookie);
 
-        if (empty($userAuth)) {
+        // Roles permitidos en la aplicación.
+        $allowedRoles = ['Administrador', 'Almacenista'];
+
+        if (empty($userAuth) || ! in_array($userAuth['rol'], $allowedRoles, true)) {
             return redirect()->route('autenticacion.loginView')
                 ->with('error', 'Acceso denegado al sistema');
         }
