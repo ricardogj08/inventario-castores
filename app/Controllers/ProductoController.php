@@ -46,6 +46,15 @@ class ProductoController extends BaseController
     // Renderiza la página de todos los productos.
     public function index()
     {
-        return view('productos/index');
+        $productoModel = model(ProductoModel::class);
+
+        // Consulta todos los productos registrados.
+        $products = $productoModel->select("{$productoModel->primaryKey} AS id, nombre, precio, cantidad, estatus, fecha_registro")
+            ->orderBy('fecha_registro', 'DESC')
+            ->findAll();
+
+        $data = compact('products');
+
+        return view('productos/index', $data);
     }
 }

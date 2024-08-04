@@ -3,7 +3,16 @@
 <?= $this->section('title') ?>Nuevo producto<?= $this->endSection() ?>
 
 <?= $this->section('dashboard_content') ?>
-    <h1 class="card-title">Nuevo producto</h1>
+    <div class="flex items-center justify-between flex-wrap gap-y-4">
+        <h1 class="card-title">Nuevo producto</h1>
+
+        <a href="<?= url_to('productos.index') ?>" class="btn btn-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
+            </svg>
+            Volver
+        </a>
+    </div>
 
     <div class="divider"></div>
 
