@@ -6,6 +6,17 @@ use App\Models\ProductoModel;
 
 class ProductoController extends BaseController
 {
+    // Reglas de validación.
+    private function getValidationsRules()
+    {
+        return [
+            'nombre'   => 'required|max_length[40]',
+            'precio'   => 'required|numeric|greater_than[0]|regex_match[/^\d{1,14}(\.\d{1,2})?$/]',
+            'estatus'  => 'permit_empty|in_list[1]',
+            'cantidad' => 'required|is_natural|regex_match[/^\d{1,4}$/]',
+        ];
+    }
+
     // Renderiza la página del formulario de registro de productos.
     public function new()
     {
@@ -17,14 +28,21 @@ class ProductoController extends BaseController
     // Registra un nuevo producto.
     public function create()
     {
-        $data = $this->request->getPost(['nombre', 'precio']);
+        $fields = ['nombre', 'precio'];
+
+        // Obtiene solo los campos permitidos.
+        $data = $this->request->getPost($fields);
+
+        $rules = [];
+
+        foreach ($fields as $field) {
+            $rules[$field] = $this->getValidationsRules()[$field];
+        }
 
         $productoModel = model(ProductoModel::class);
 
-        $rules = [
-            'nombre' => "required|max_length[40]|is_unique[{$productoModel->table}.nombre]",
-            'precio' => 'required|numeric|greater_than[0]|regex_match[/^\d{1,14}(\.\d{1,2})?$/]',
-        ];
+        // Valida que el nombre sea único.
+        $rules['nombre'] .= "|is_unique[{$productoModel->table}.nombre]";
 
         // Valida los campos del formulario.
         if (! $this->validateData($data, $rules)) {
@@ -93,5 +111,78 @@ class ProductoController extends BaseController
         $data = compact('userAuthRol', 'product');
 
         return view('productos/edit', $data);
+    }
+
+    // Modifica la información de un producto como administrador.
+    private function updateFromAdmin(array $product)
+    {
+        $rules = $this->getValidationsRules();
+
+        $productoModel = model(ProductoModel::class);
+
+        // Valida que el nombre sea único a excepción de el mismo.
+        $rules['nombre'] .= "|is_unique[{$productoModel->table}.nombre,{$productoModel->primaryKey},{$product['id']}]";
+
+        // Obtiene solo los campos permitidos.
+        $data = $this->request->getPost(array_keys($rules));
+
+        // Valida los campos del formulario.
+        if (! $this->validateData($data, $rules)) {
+            return redirect()->route('productos.edit', [$product['id']])->withInput();
+        }
+
+        helper('text');
+
+        // Elimina espacios sobrantes.
+        $data['nombre'] = reduce_multiples($data['nombre'], ' ', true);
+
+        if (empty($data['estatus'])) {
+            $data['estatus'] = 0;
+        }
+
+        // Modifica la cantidad de productos.
+        $data['cantidad'] += $product['cantidad'];
+
+        // Modifica la información del producto.
+        $productoModel->update($product['id'], $data);
+    }
+
+    // Modifica la información de un producto como Almacenista.
+    private function updateFromStorer(array $product)
+    {
+    }
+
+    // Modifica la información de un producto.
+    public function update(int $id)
+    {
+        $productoModel = model(ProductoModel::class);
+
+        $query = $productoModel->select("{$productoModel->primaryKey} AS id, cantidad");
+
+        $userAuthRol = session('userAuth.rol');
+
+        // Filtra la búsqueda del producto dependiendo del rol del usuario.
+        if ($userAuthRol === 'Almacenista') {
+            $query->where('estatus', 1);
+        }
+
+        // Consulta la información del producto.
+        $product = $query->find($id);
+
+        // Valida si existe el producto.
+        if (empty($product)) {
+            return redirect()->route('productos.index')
+                ->with('error', 'No puedes actualizar este producto');
+        }
+
+        // Modifica la información del producto dependiendo del rol del usuario.
+        if ($userAuthRol === 'Administrador') {
+            $this->updateFromAdmin($product);
+        } else {
+            $this->updateFromStorer($product);
+        }
+
+        return redirect()->route('productos.index')
+            ->with('success', 'El producto se ha modificado correctamente');
     }
 }

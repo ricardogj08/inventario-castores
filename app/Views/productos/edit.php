@@ -26,6 +26,8 @@
                 <input
                     type="text"
                     name="nombre"
+                    required
+                    maxlength="40"
                     <?= $userAuthRol === 'Almacenista' ? 'disabled' : '' ?>
                     value="<?= set_value('nombre', $product['nombre']) ?>"
                     placeholder="Escribe el nombre del producto"
@@ -42,6 +44,8 @@
                 <input
                     type="text"
                     name="precio"
+                    required
+                    pattern="^\d{1,14}(\.\d{1,2})?$"
                     <?= $userAuthRol === 'Almacenista' ? 'disabled' : '' ?>
                     value="<?= set_value('precio', $product['precio']) ?>"
                     placeholder="$ 0.00"
@@ -62,22 +66,6 @@
                     class="input input-bordered w-full">
             </label>
 
-            <div class="form-control w-full justify-end">
-                <label class="label cursor-pointer">
-                    <span class="label-text">Activar:</span>
-                    <input
-                        type="checkbox"
-                        name="estatus"
-                        <?= $userAuthRol === 'Almacenista' ? 'disabled' : '' ?>
-                        value="1"
-                        <?= set_checkbox('estatus', $product['estatus'], '1') ?>
-                        class="toggle">
-                </label>
-                <div class="label">
-                    <span class="label-text-alt"><?= validation_show_error('estatus', 'field') ?></span>
-                </div>
-            </div>
-
             <label class="form-control w-full">
                 <div class="label">
                     <span class="label-text">Fecha de registro:</span>
@@ -88,6 +76,43 @@
                     value="<?= esc($product['fecha_registro']) ?>"
                     class="input input-bordered w-full">
             </label>
+
+            <label class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Cantidad de entrada:</span>
+                </div>
+                <input
+                    type="number"
+                    name="cantidad"
+                    required
+                    step="1"
+                    min="0"
+                    value="<?= set_value('cantidad', 0) ?>"
+                    placeholder="0"
+                    class="input input-bordered w-full">
+                <div class="label">
+                    <span class="label-text-alt"><?= validation_show_error('cantidad', 'field') ?></span>
+                </div>
+            </label>
+
+            <div class="form-control w-full">
+                <div class="label">
+                    <span class="label-text">Estatus:</span>
+                </div>
+                <label class="label cursor-pointer">
+                    <span class="label-text">Activar:</span>
+                    <input
+                        type="checkbox"
+                        name="estatus"
+                        <?= $userAuthRol === 'Almacenista' ? 'disabled' : '' ?>
+                        value="1"
+                        <?= set_checkbox('estatus', '1', $product['estatus']) ?>
+                        class="toggle">
+                </label>
+                <div class="label">
+                    <span class="label-text-alt"><?= validation_show_error('estatus', 'field') ?></span>
+                </div>
+            </div>
         </div>
 
         <div class="flex flex-wrap gap-2 justify-end">

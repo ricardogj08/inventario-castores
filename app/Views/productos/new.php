@@ -43,8 +43,8 @@
                 <input
                     type="text"
                     name="precio"
-                    pattern="^\d{1,14}(\.\d{1,2})?$"
                     required
+                    pattern="^\d{1,14}(\.\d{1,2})?$"
                     value="<?= set_value('precio') ?>"
                     placeholder="$ 0.00"
                     class="input input-bordered w-full">
