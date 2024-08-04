@@ -3,19 +3,26 @@
 <?= $this->section('title') ?>Nuevo producto<?= $this->endSection() ?>
 
 <?= $this->section('dashboard_content') ?>
-    <?= form_open(url_to('productos.create'), ['class' => 'flex flex-col gap-y-4']) ?>
+    <h1 class="card-title">Nuevo producto</h1>
+
+    <div class="divider"></div>
+
+    <!-- Formulario de registro de nuevos productos -->
+    <?= form_open(url_to('productos.create'), ['class' => 'flex flex-col gap-y-2']) ?>
         <label class="form-control w-full">
             <div class="label">
                 <span class="label-text">Nombre:</span>
             </div>
             <input
                 type="text"
-                name="name"
-                value="<?= set_value('name') ?>"
+                name="nombre"
+                required
+                maxlength="40"
+                value="<?= set_value('nombre') ?>"
                 placeholder="Escribe el nombre del producto"
-                class="input input-bordered w-full">
+                class="input input-bordered input-primary w-full">
             <div class="label">
-                <span class="label-text-alt"><?= validation_show_error('name', 'field') ?></span>
+                <span class="label-text-alt"><?= validation_show_error('nombre', 'field') ?></span>
             </div>
         </label>
 
@@ -25,16 +32,20 @@
             </div>
             <input
                 type="text"
-                name="price"
-                pattern="\d{1,14}(\.\d{1,2})?"
-                value="<?= set_value('price') ?>"
+                name="precio"
+                pattern="^\d{1,14}(\.\d{1,2})?$"
+                required
+                value="<?= set_value('precio') ?>"
                 placeholder="$ 0.00"
-                class="input input-bordered w-full">
+                class="input input-bordered input-primary w-full">
             <div class="label">
-                <span class="label-text-alt"><?= validation_show_error('name', 'field') ?></span>
+                <span class="label-text-alt"><?= validation_show_error('precio', 'field') ?></span>
             </div>
         </label>
 
-        <input type="submit" value="Guardar" class="btn btn-primary btn-block text-neutral-content">
+        <div class="ml-auto">
+            <input type="submit" value="Guardar" class="btn btn-primary text-neutral-content">
+            <a href="<?= url_to('productos.index') ?>" class="btn btn-secondary text-neutral-content">Cancelar</a>
+        </div>
     <?= form_close() ?>
 <?= $this->endSection() ?>

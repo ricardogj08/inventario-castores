@@ -4,29 +4,29 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-// Modelo que representa la tabla de usuarios.
-class UsuarioModel extends Model
+// Modelo que representa la tabla de productos.
+class ProductoModel extends Model
 {
-    protected $table      = 'usuarios';
-    protected $primaryKey = 'idUsuario';
-
-    // protected $useAutoIncrement       = true;
-    protected $useAutoIncrement       = false;
+    protected $table                  = 'productos';
+    protected $primaryKey             = 'idProducto';
+    protected $useAutoIncrement       = true;
     protected $returnType             = 'array';
     protected $useSoftDeletes         = false;
     protected $protectFields          = true;
-    protected $allowedFields          = ['correo', 'idRol', 'nombre', 'contrasena', 'estatus'];
+    protected $allowedFields          = ['nombre', 'precio', 'cantidad', 'estatus'];
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
     protected array $casts            = [];
     protected array $castHandlers     = [];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
-    protected $createdField  = 'created_at';
-    protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
+    protected $createdField  = 'fecha_registro';
+
+    // protected $updatedField  = 'updated_at';
+    protected $updatedField = '';
+    protected $deletedField = 'deleted_at';
 
     // Validation
     protected $validationRules      = [];
