@@ -50,10 +50,10 @@ class ProductoController extends BaseController
 
         $query = $productoModel->select("{$productoModel->primaryKey} AS id, nombre, precio, cantidad, estatus, fecha_registro");
 
-        $userAuth = session('userAuth');
+        $userAuthRol = session('userAuth.rol');
 
         // Filtra los productos dependiendo del rol del usuario.
-        if ($userAuth['rol'] === 'Almacenista') {
+        if ($userAuthRol === 'Almacenista') {
             $query->where('estatus', 1);
         }
 

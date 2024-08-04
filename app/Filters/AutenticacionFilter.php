@@ -43,7 +43,7 @@ class AutenticacionFilter implements FilterInterface
         $userAuth = $usuarioModel->select("{$usuarioTableName}.{$usuarioPrimaryKeyFieldName}, {$usuarioTableName}.nombre, {$usuarioModel->getRolTableName()}.nombre AS rol")
             ->rol()
             ->where("{$usuarioTableName}.estatus", 1)
-            ->first();
+            ->find($cookie);
 
         if (empty($userAuth)) {
             return redirect()->route('autenticacion.loginView')

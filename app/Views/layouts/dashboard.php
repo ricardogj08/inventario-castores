@@ -63,7 +63,7 @@
                 <li></li>
                 <li class="mt-auto">
                     <details>
-                        <summary>Usuario</summary>
+                        <summary><?= esc(session('userAuth.nombre')) ?></summary>
                         <ul>
                             <li>
                                 <a href="<?= url_to('autenticacion.logoutAction') ?>">
