@@ -24,10 +24,10 @@ class AutenticacionController extends BaseController
     // Inicia la sesión de un usuario.
     public function loginAction()
     {
+        $rules = $this->getValidationRules();
+
         // Obtiene solo los campos permitidos.
         $data = $this->request->getPost(array_keys($rules));
-
-        $rules = $this->getValidationRules();
 
         // Valida los campos del formulario.
         if (! $this->validateData($data, $rules)) {
