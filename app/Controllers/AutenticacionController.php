@@ -8,8 +8,8 @@ class AutenticacionController extends BaseController
     private function getValidationRules()
     {
         return [
-            'email'    => 'required|max_length[50]|valid_email|is_not_unique[usuarios.correo,estatus,1]',
-            'password' => 'required|max_length[25]|alpha_dash',
+            'correo'     => 'required|max_length[50]|valid_email|is_not_unique[usuarios.correo,estatus,1]',
+            'contrasena' => 'required|max_length[25]|alpha_dash',
         ];
     }
 
@@ -24,10 +24,10 @@ class AutenticacionController extends BaseController
     // Inicia la sesión de un usuario.
     public function loginAction()
     {
-        $rules = $this->getValidationRules();
-
         // Obtiene solo los campos permitidos.
         $data = $this->request->getPost(array_keys($rules));
+
+        $rules = $this->getValidationRules();
 
         // Valida los campos del formulario.
         if (! $this->validateData($data, $rules)) {
@@ -40,11 +40,11 @@ class AutenticacionController extends BaseController
 
         // Consulta la información del usuario.
         $user = $usuarioModel->select([$primaryKeyFieldName, 'contrasena'])
-            ->where('correo', trim($data['email']))
+            ->where('correo', trim($data['correo']))
             ->first();
 
         // Valida la contraseña del usuario.
-        if ($user['contrasena'] !== $data['password']) {
+        if ($user['contrasena'] !== $data['contrasena']) {
             return redirect()->route('autenticacion.loginView')
                 ->withInput()
                 ->with('error', 'Acceso no permitido');

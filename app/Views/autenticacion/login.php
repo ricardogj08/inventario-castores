@@ -23,14 +23,14 @@
                     </div>
                     <input
                         type="text"
-                        name="email"
+                        name="correo"
                         required
                         maxlength="50"
-                        value="<?= set_value('email') ?>"
+                        value="<?= set_value('correo') ?>"
                         placeholder="Escribe tu correo electrónico"
                         class="input input-bordered w-full">
                     <div class="label">
-                        <span class="label-text-alt"><?= validation_show_error('email', 'field') ?></span>
+                        <span class="label-text-alt"><?= validation_show_error('correo', 'field') ?></span>
                     </div>
                 </label>
 
@@ -40,14 +40,14 @@
                     </div>
                     <input
                         type="password"
-                        name="password"
+                        name="contrasena"
                         required
                         maxlength="25"
                         value=""
                         placeholder="Escribe tu contraseña"
                         class="input input-bordered w-full">
                     <div class="label">
-                        <span class="label-text-alt"><?= validation_show_error('password', 'field') ?></span>
+                        <span class="label-text-alt"><?= validation_show_error('contrasena', 'field') ?></span>
                     </div>
                 </label>
 
