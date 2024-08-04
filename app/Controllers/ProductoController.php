@@ -6,7 +6,7 @@ use App\Models\ProductoModel;
 
 class ProductoController extends BaseController
 {
-    // Renderiza el formulario de registro de productos.
+    // Renderiza la página del formulario de registro de productos.
     public function new()
     {
         helper('form');
@@ -43,7 +43,9 @@ class ProductoController extends BaseController
             ->with('success', 'El producto se ha registrado correctamente');
     }
 
+    // Renderiza la página de todos los productos.
     public function index()
     {
+        return view('productos/index');
     }
 }

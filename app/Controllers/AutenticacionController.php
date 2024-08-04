@@ -13,7 +13,7 @@ class AutenticacionController extends BaseController
         ];
     }
 
-    // Renderiza el formulario de inicio de sesión.
+    // Renderiza la página del formulario de inicio de sesión.
     public function loginView()
     {
         helper('form');
