@@ -24,8 +24,8 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Precio</th>
-                    <th>Cantidad</th>
-                    <th>Status</th>
+                    <th>Inventario</th>
+                    <th>Estatus</th>
                     <th>Fecha de registro</th>
                     <th>Acciones</th>
                 </tr>
@@ -35,7 +35,7 @@
                 <tr class="hover">
                     <th><?= esc($product['id']) ?></th>
                     <td><?= esc($product['nombre']) ?></td>
-                    <td><?= esc($product['precio']) ?></td>
+                    <td>$ <?= esc($product['precio']) ?></td>
                     <td><?= esc($product['cantidad']) ?></td>
                     <td>
                         <?php if (empty($product['estatus'])): ?>

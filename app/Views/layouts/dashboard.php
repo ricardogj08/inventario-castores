@@ -60,8 +60,8 @@
                         Movimientos
                     </a>
                 </li>
-                <li></li>
-                <li class="mt-auto">
+                <li class="mt-auto"></li>
+                <li>
                     <details>
                         <summary><?= esc(session('userAuth.nombre')) ?></summary>
                         <ul>

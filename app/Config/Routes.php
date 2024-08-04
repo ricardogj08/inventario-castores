@@ -19,5 +19,6 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     });
 
     $routes->get('inventario', 'ProductoController::index', ['as' => 'productos.index']);
-    $routes->get('productos/editar', 'ProductoController::edit/$1', ['as' => 'productos.edit']);
+    $routes->get('productos/editar/(:num)', 'ProductoController::edit/$1', ['as' => 'productos.edit']);
+    $routes->post('productos/actualizar/(:num)', 'ProductoController::update/$1', ['as' => 'productos.update']);
 });

@@ -19,8 +19,10 @@ class ProductoController extends BaseController
     {
         $data = $this->request->getPost(['nombre', 'precio']);
 
+        $productoModel = model(ProductoModel::class);
+
         $rules = [
-            'nombre' => 'required|max_length[40]|is_unique[productos.nombre]',
+            'nombre' => "required|max_length[40]|is_unique[{$productoModel->table}.nombre]",
             'precio' => 'required|numeric|greater_than[0]|regex_match[/^\d{1,14}(\.\d{1,2})?$/]',
         ];
 
@@ -28,8 +30,6 @@ class ProductoController extends BaseController
         if (! $this->validateData($data, $rules)) {
             return redirect()->route('productos.new')->withInput();
         }
-
-        $productoModel = model(ProductoModel::class);
 
         helper('text');
 
@@ -63,5 +63,35 @@ class ProductoController extends BaseController
         $data = compact('products');
 
         return view('productos/index', $data);
+    }
+
+    // Renderiza la página del formulario de edición de productos.
+    public function edit(int $id)
+    {
+        $productoModel = model(ProductoModel::class);
+
+        $query = $productoModel->select("{$productoModel->primaryKey} AS id, nombre, precio, cantidad, estatus, fecha_registro");
+
+        $userAuthRol = session('userAuth.rol');
+
+        // Filtra la búsqueda del producto dependiendo del rol del usuario.
+        if ($userAuthRol === 'Almacenista') {
+            $query->where('estatus', 1);
+        }
+
+        // Consulta la información del producto.
+        $product = $query->find($id);
+
+        // Valida si existe el producto.
+        if (empty($product)) {
+            return redirect()->route('productos.index')
+                ->with('error', 'No puedes editar este producto');
+        }
+
+        helper('form');
+
+        $data = compact('userAuthRol', 'product');
+
+        return view('productos/edit', $data);
     }
 }
