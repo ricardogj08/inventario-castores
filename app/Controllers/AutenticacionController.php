@@ -2,13 +2,17 @@
 
 namespace App\Controllers;
 
+use App\Models\UsuarioModel;
+
 class AutenticacionController extends BaseController
 {
     // Reglas de validación del formulario de inicio de sesión.
     private function getValidationRules()
     {
+        $usuarioTableName = model(UsuarioModel::class)->table;
+
         return [
-            'correo'     => 'required|max_length[50]|valid_email|is_not_unique[usuarios.correo,estatus,1]',
+            'correo'     => "required|max_length[50]|valid_email|is_not_unique[{$usuarioTableName}.correo,estatus,1]",
             'contrasena' => 'required|max_length[25]|alpha_dash',
         ];
     }
@@ -34,7 +38,7 @@ class AutenticacionController extends BaseController
             return redirect()->route('autenticacion.loginView')->withInput();
         }
 
-        $usuarioModel = model('App\Models\UsuarioModel');
+        $usuarioModel = model(UsuarioModel::class);
 
         $primaryKeyFieldName = $usuarioModel->primaryKey;
 
@@ -53,7 +57,7 @@ class AutenticacionController extends BaseController
         // Genera la cookie de autenticación (24 horas).
         service('response')->setCookie('userAuth', $user[$primaryKeyFieldName], 60 * 60 * 24);
 
-        return redirect()->route('movimientos.index')->withCookies();
+        return redirect()->route('productos.index')->withCookies();
     }
 
     // Cierra la sesión de un usuario.
