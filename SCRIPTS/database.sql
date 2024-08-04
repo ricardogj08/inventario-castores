@@ -36,7 +36,8 @@ CREATE TABLE IF NOT EXISTS `productos` (
     `nombre` VARCHAR(40) NOT NULL,
     `precio` DECIMAL(16, 2) UNSIGNED NOT NULL,
     `cantidad` SMALLINT(4) UNSIGNED NOT NULL DEFAULT 0,
-    `estatus` INT(1) UNSIGNED NOT NULL,
+    `estatus` INT(1) UNSIGNED NOT NULL DEFAULT 1,
+    `fecha_registro` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `productos_idProducto_primario` PRIMARY KEY(`idProducto`),
     CONSTRAINT `productos_nombre_unico` UNIQUE(`nombre`)
 );
