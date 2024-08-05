@@ -31,7 +31,7 @@ class TransactionController extends BaseController
 
         // Valida los campos de filtrado.
         if (! $this->validateData($filters, $rules)) {
-            return redirect()->route('transactions.index');
+            return redirect()->route('transactions.index')->withInput();
         }
 
         // Filtra los resultados por tipo de movimiento.

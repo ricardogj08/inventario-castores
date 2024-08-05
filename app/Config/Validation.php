@@ -37,6 +37,7 @@ class Validation extends BaseConfig
         'list'   => 'CodeIgniter\Validation\Views\list',
         'single' => 'CodeIgniter\Validation\Views\single',
         'field'  => 'templates/validations/field',
+        'group'  => 'templates/validations/group',
     ];
 
     // --------------------------------------------------------------------

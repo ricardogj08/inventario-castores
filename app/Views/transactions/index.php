@@ -7,6 +7,8 @@
 
     <div class="divider"></div>
 
+    <?= validation_list_errors('group') ?>
+
     <!-- Formulario de los filtros de búsqueda -->
     <?= form_open(current_url(), ['method' => 'get', 'class' => 'flex items-end gap-2 flex-wrap']) ?>
         <label class="form-control w-full max-w-xs">
