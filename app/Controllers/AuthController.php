@@ -9,10 +9,8 @@ class AuthController extends BaseController
     // Reglas de validación del formulario de inicio de sesión.
     private function getValidationRules()
     {
-        $usuarioTableName = model(UsuarioModel::class)->table;
-
         return [
-            'correo'     => "required|max_length[50]|valid_email|is_not_unique[{$usuarioTableName}.correo,estatus,1]",
+            'correo'     => 'required|max_length[50]|valid_email|is_not_unique[usuarios.correo,estatus,1]',
             'contrasena' => 'required|max_length[25]|alpha_dash',
         ];
     }
@@ -38,10 +36,10 @@ class AuthController extends BaseController
             return redirect()->route('auth.loginView')->withInput();
         }
 
-        $usuarioModel = model(UsuarioModel::class);
+        $userModel = model(UsuarioModel::class);
 
         // Consulta la información del usuario.
-        $user = $usuarioModel->select("{$usuarioModel->primaryKey} AS id, contrasena")
+        $user = $userModel->select('idUsuario, contrasena')
             ->where('correo', trim($data['correo']))
             ->first();
 
@@ -53,7 +51,7 @@ class AuthController extends BaseController
         }
 
         // Genera la cookie de autenticación (24 horas).
-        service('response')->setCookie('userAuth', $user['id'], 60 * 60 * 24);
+        service('response')->setCookie('userAuth', $user['idUsuario'], 60 * 60 * 24);
 
         return redirect()->route('products.index')->withCookies();
     }

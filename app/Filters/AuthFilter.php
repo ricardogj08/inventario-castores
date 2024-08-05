@@ -27,21 +27,19 @@ class AuthFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         // Obtiene la cookie del usuario autenticado.
-        $cookie = $request->getCookie('userAuth');
+        $cookie = service('request')->getCookie('userAuth');
 
         if (empty($cookie)) {
             return redirect()->route('auth.loginView')
                 ->with('warning', 'Ingresa tus credenciales de acceso');
         }
 
-        $usuarioModel = model(UsuarioModel::class);
-
-        $usuarioTableName = $usuarioModel->table;
+        $userModel = model(UsuarioModel::class);
 
         // Consulta la información del usuario autenticado.
-        $userAuth = $usuarioModel->select("{$usuarioTableName}.{$usuarioModel->primaryKey} AS id, {$usuarioTableName}.nombre, {$usuarioModel->getRolTableName()}.nombre AS rol")
+        $userAuth = $userModel->select('usuarios.idUsuario, usuarios.nombre, roles.nombre AS rol')
             ->rol()
-            ->where("{$usuarioTableName}.estatus", 1)
+            ->where('usuarios.estatus', 1)
             ->find($cookie);
 
         // Roles permitidos en la aplicación.
