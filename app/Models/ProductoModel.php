@@ -7,7 +7,9 @@ use CodeIgniter\Model;
 // Modelo que representa la tabla de productos.
 class ProductoModel extends Model
 {
-    protected $table                  = 'productos';
+    protected $table = 'productos';
+
+    // protected $primaryKey             = 'id';
     protected $primaryKey             = 'idProducto';
     protected $useAutoIncrement       = true;
     protected $returnType             = 'array';
@@ -20,9 +22,12 @@ class ProductoModel extends Model
     protected array $castHandlers     = [];
 
     // Dates
+    // protected $useTimestamps = false;
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
-    protected $createdField  = 'fecha_registro';
+
+    // protected $createdField  = 'created_at';
+    protected $createdField = 'fecha_registro';
 
     // protected $updatedField  = 'updated_at';
     protected $updatedField = '';

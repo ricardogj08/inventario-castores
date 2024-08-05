@@ -7,7 +7,9 @@ use CodeIgniter\Model;
 // Modelo que representa la tabla de usuarios.
 class UsuarioModel extends Model
 {
-    protected $table      = 'usuarios';
+    protected $table = 'usuarios';
+
+    // protected $primaryKey = 'id';
     protected $primaryKey = 'idUsuario';
 
     // protected $useAutoIncrement       = true;

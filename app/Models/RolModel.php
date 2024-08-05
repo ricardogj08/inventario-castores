@@ -7,7 +7,9 @@ use CodeIgniter\Model;
 // Modelo que representa la tabla de roles de los usuarios.
 class RolModel extends Model
 {
-    protected $table      = 'roles';
+    protected $table = 'roles';
+
+    // protected $primaryKey = 'id';
     protected $primaryKey = 'idRol';
 
     // protected $useAutoIncrement = true;

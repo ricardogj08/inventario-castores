@@ -1,10 +1,10 @@
 <?= $this->extend('layouts/dashboard') ?>
 
-<?= $this->section('title') ?>Editar Producto<?= $this->endSection() ?>
+<?= $this->section('title') ?>Editar producto<?= $this->endSection() ?>
 
 <?= $this->section('dashboard_content') ?>
     <div class="flex items-center justify-between flex-wrap gap-4">
-        <h1 class="card-title">Editar Producto</h1>
+        <h1 class="card-title">Editar producto</h1>
 
         <a href="<?= url_to('productos.index') ?>" class="btn btn-sm">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
