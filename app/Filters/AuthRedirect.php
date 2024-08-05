@@ -25,7 +25,7 @@ class AuthRedirect implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (! empty(request()->getCookie('userAuth')) || ! empty(session('userAuth'))) {
+        if (! empty(request()->getCookie('userAuth'))) {
             return redirect()->route('products.index')
                 ->with('default', 'Ya cuentas con una sesión activa');
         }
