@@ -6,7 +6,7 @@
     <div class="flex items-center justify-between flex-wrap gap-4">
         <h1 class="card-title">Nuevo producto</h1>
 
-        <a href="<?= url_to('productos.index') ?>" class="btn btn-sm">
+        <a href="<?= url_to('products.index') ?>" class="btn btn-sm">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
             </svg>
@@ -17,7 +17,7 @@
     <div class="divider"></div>
 
     <!-- Formulario de registro de nuevos productos -->
-    <?= form_open(url_to('productos.create')) ?>
+    <?= form_open(url_to('products.create')) ?>
         <div class="grid md:grid-cols-2 gap-2 mb-2">
             <label class="form-control w-full">
                 <div class="label">
@@ -56,7 +56,7 @@
 
         <div class="flex flex-wrap gap-2 justify-end">
             <input type="submit" value="Guardar" class="btn btn-primary text-neutral-content">
-            <a href="<?= url_to('productos.index') ?>" class="btn btn-secondary text-neutral-content">Cancelar</a>
+            <a href="<?= url_to('products.index') ?>" class="btn btn-secondary text-neutral-content">Cancelar</a>
         </div>
     <?= form_close() ?>
 <?= $this->endSection() ?>

@@ -9,7 +9,7 @@
             <h1 class="card-title">Iniciar sesión</h1>
 
             <!-- Formulario de inicio de sesión -->
-            <?= form_open(url_to('autenticacion.loginAction'), ['class' => 'flex flex-col gap-y-2']) ?>
+            <?= form_open(url_to('auth.loginAction'), ['class' => 'flex flex-col gap-y-2']) ?>
                 <label class="form-control w-full">
                     <div class="label">
                         <span class="label-text">Email:</span>

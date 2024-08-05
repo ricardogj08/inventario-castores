@@ -48,7 +48,7 @@ class ProductController extends BaseController
 
         // Valida los campos del formulario.
         if (! $this->validateData($data, $rules)) {
-            return redirect()->route('productos.new')->withInput();
+            return redirect()->route('products.new')->withInput();
         }
 
         helper('text');
@@ -59,7 +59,7 @@ class ProductController extends BaseController
         // Registra el nuevo producto.
         $productoModel->insert($data);
 
-        return redirect()->route('productos.index')
+        return redirect()->route('products.index')
             ->with('success', 'El producto se ha registrado correctamente');
     }
 
@@ -104,7 +104,7 @@ class ProductController extends BaseController
 
         // Valida si existe el producto.
         if (empty($product)) {
-            return redirect()->route('productos.index')
+            return redirect()->route('products.index')
                 ->with('error', 'No puedes editar este producto');
         }
 
@@ -130,7 +130,7 @@ class ProductController extends BaseController
 
         // Valida los campos del formulario.
         if (! $this->validateData($data, $rules)) {
-            return redirect()->route('productos.edit', [$product['id']])->withInput();
+            return redirect()->route('products.edit', [$product['id']])->withInput();
         }
 
         helper('text');
@@ -169,7 +169,7 @@ class ProductController extends BaseController
             ]);
         }
 
-        return redirect()->route('productos.index')
+        return redirect()->route('products.index')
             ->with('success', 'El producto se ha modificado correctamente');
     }
 
@@ -192,7 +192,7 @@ class ProductController extends BaseController
 
         // Valida los campos del formulario.
         if (! $this->validateData($data, $rules)) {
-            return redirect()->route('productos.edit', [$product['id']])->withInput();
+            return redirect()->route('products.edit', [$product['id']])->withInput();
         }
 
         $amount = $data['cantidad'];
@@ -224,7 +224,7 @@ class ProductController extends BaseController
             ]);
         }
 
-        return redirect()->route('productos.index')
+        return redirect()->route('products.index')
             ->with('success', 'El producto se ha modificado correctamente');
     }
 
@@ -247,7 +247,7 @@ class ProductController extends BaseController
 
         // Valida si existe el producto.
         if (empty($product)) {
-            return redirect()->route('productos.index')
+            return redirect()->route('products.index')
                 ->with('error', 'No puedes actualizar este producto');
         }
 

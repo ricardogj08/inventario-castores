@@ -35,7 +35,7 @@ class AuthController extends BaseController
 
         // Valida los campos del formulario.
         if (! $this->validateData($data, $rules)) {
-            return redirect()->route('autenticacion.loginView')->withInput();
+            return redirect()->route('auth.loginView')->withInput();
         }
 
         $usuarioModel = model(UsuarioModel::class);
@@ -47,7 +47,7 @@ class AuthController extends BaseController
 
         // Valida la contraseña del usuario.
         if ($user['contrasena'] !== $data['contrasena']) {
-            return redirect()->route('autenticacion.loginView')
+            return redirect()->route('auth.loginView')
                 ->withInput()
                 ->with('error', 'Acceso no permitido');
         }
@@ -55,7 +55,7 @@ class AuthController extends BaseController
         // Genera la cookie de autenticación (24 horas).
         service('response')->setCookie('userAuth', $user['id'], 60 * 60 * 24);
 
-        return redirect()->route('productos.index')->withCookies();
+        return redirect()->route('products.index')->withCookies();
     }
 
     // Cierra la sesión de un usuario.
@@ -63,6 +63,6 @@ class AuthController extends BaseController
     {
         service('response')->deleteCookie('userAuth');
 
-        return redirect()->route('autenticacion.loginView')->withCookies();
+        return redirect()->route('auth.loginView')->withCookies();
     }
 }

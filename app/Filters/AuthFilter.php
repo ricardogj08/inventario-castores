@@ -30,7 +30,7 @@ class AuthFilter implements FilterInterface
         $cookie = $request->getCookie('userAuth');
 
         if (empty($cookie)) {
-            return redirect()->route('autenticacion.loginView')
+            return redirect()->route('auth.loginView')
                 ->with('warning', 'Ingresa tus credenciales de acceso');
         }
 
@@ -48,7 +48,7 @@ class AuthFilter implements FilterInterface
         $allowedRoles = ['Administrador', 'Almacenista'];
 
         if (empty($userAuth) || ! in_array($userAuth['rol'], $allowedRoles, true)) {
-            return redirect()->route('autenticacion.loginView')
+            return redirect()->route('auth.loginView')
                 ->with('error', 'Acceso denegado al sistema');
         }
 
