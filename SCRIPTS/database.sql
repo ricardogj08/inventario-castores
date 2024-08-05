@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS `movimientos` (
     `idProducto` INT(6) UNSIGNED NOT NULL,
     `idTipoMovimiento` INT(2) UNSIGNED NOT NULL,
     `idUsuario` INT(6) UNSIGNED NOT NULL,
+    `cantidad` SMALLINT(4) UNSIGNED NOT NULL,
     `fecha_registro` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `movimientos_idMovimiento_primario` PRIMARY KEY(`idMovimiento`),
     CONSTRAINT `movimientos_idProducto_foraneo` FOREIGN KEY(`idProducto`)
