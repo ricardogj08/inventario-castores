@@ -30,9 +30,6 @@ class ProductoController extends BaseController
     {
         $fields = ['nombre', 'precio'];
 
-        // Obtiene solo los campos permitidos.
-        $data = $this->request->getPost($fields);
-
         $rules = [];
 
         foreach ($fields as $field) {
@@ -43,6 +40,9 @@ class ProductoController extends BaseController
 
         // Valida que el nombre sea único.
         $rules['nombre'] .= "|is_unique[{$productoModel->table}.nombre]";
+
+        // Obtiene solo los campos permitidos.
+        $data = $this->request->getPost($fields);
 
         // Valida los campos del formulario.
         if (! $this->validateData($data, $rules)) {
@@ -140,16 +140,48 @@ class ProductoController extends BaseController
             $data['estatus'] = 0;
         }
 
-        // Modifica la cantidad de productos.
+        // Suma la cantidad de productos.
         $data['cantidad'] += $product['cantidad'];
 
         // Modifica la información del producto.
         $productoModel->update($product['id'], $data);
+
+        return redirect()->route('productos.index')
+            ->with('success', 'El producto se ha modificado correctamente');
     }
 
     // Modifica la información de un producto como Almacenista.
     private function updateFromStorer(array $product)
     {
+        $fields = ['cantidad'];
+
+        $rules = [];
+
+        foreach ($fields as $field) {
+            $rules[$field] = $this->getValidationsRules()[$field];
+        }
+
+        // Obtiene solo los campos permitidos.
+        $data = $this->request->getPost($fields);
+
+        // La cantidad de inventario a restar debe ser menor o igual a la cantidad disponible.
+        $rules['cantidad'] .= "|less_than_equal_to[{$product['cantidad']}]";
+
+        // Valida los campos del formulario.
+        if (! $this->validateData($data, $rules)) {
+            return redirect()->route('productos.edit', [$product['id']])->withInput();
+        }
+
+        // Resta la cantidad de productos.
+        $data['cantidad'] = $product['cantidad'] - $data['cantidad'];
+
+        $productoModel = model(ProductoModel::class);
+
+        // Modifica la información del producto.
+        $productoModel->update($product['id'], $data);
+
+        return redirect()->route('productos.index')
+            ->with('success', 'El producto se ha modificado correctamente');
     }
 
     // Modifica la información de un producto.
@@ -177,12 +209,9 @@ class ProductoController extends BaseController
 
         // Modifica la información del producto dependiendo del rol del usuario.
         if ($userAuthRol === 'Administrador') {
-            $this->updateFromAdmin($product);
-        } else {
-            $this->updateFromStorer($product);
+            return $this->updateFromAdmin($product);
         }
 
-        return redirect()->route('productos.index')
-            ->with('success', 'El producto se ha modificado correctamente');
+        return $this->updateFromStorer($product);
     }
 }

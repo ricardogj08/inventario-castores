@@ -79,7 +79,9 @@
 
             <label class="form-control w-full">
                 <div class="label">
-                    <span class="label-text">Cantidad de entrada:</span>
+                    <span class="label-text">
+                        <?= $userAuthRol === 'Administrador' ? 'Cantidad de entrada' : 'Cantidad de salida' ?>:
+                    </span>
                 </div>
                 <input
                     type="number"
@@ -87,6 +89,7 @@
                     required
                     step="1"
                     min="0"
+                    max="<?= $userAuthRol === 'Almacenista' && $product['cantidad'] > 0 ? esc($product['cantidad']) : '' ?>"
                     value="<?= set_value('cantidad', 0) ?>"
                     placeholder="0"
                     class="input input-bordered w-full">
