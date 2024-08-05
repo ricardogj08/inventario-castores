@@ -30,7 +30,11 @@ class TransactionController extends BaseController
         $filters = $this->request->getGet(array_keys($rules));
 
         // Valida los campos de filtrado.
+        if (! $this->validateData($filters, $rules)) {
+            return redirect()->route('transactions.index');
+        }
 
+        // Filtra los resultados por tipo de movimiento.
         if (! empty($filters['search[idTipoMovimiento]'])) {
             $query->where('movimientos.idTipoMovimiento', $filters['search[idTipoMovimiento]']);
         }
@@ -45,7 +49,7 @@ class TransactionController extends BaseController
             ->orderBy('nombre', 'ASC')
             ->findAll();
 
-        $data = compact('transactions', 'typesTransactions');
+        $data = compact('transactions', 'typesTransactions', 'filters');
 
         helper('form');
 

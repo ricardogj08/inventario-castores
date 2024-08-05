@@ -109,7 +109,7 @@
                         name="estatus"
                         <?= $userAuthRol === 'Almacenista' ? 'disabled' : '' ?>
                         value="1"
-                        <?= set_checkbox('estatus', '1', $product['estatus']) ?>
+                        <?= empty($product['estatus']) ? '' : 'checked' ?>
                         class="toggle">
                 </label>
                 <div class="label">

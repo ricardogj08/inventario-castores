@@ -8,13 +8,22 @@
     <div class="divider"></div>
 
     <!-- Formulario de los filtros de búsqueda -->
-    <?= form_open(current_url(), ['method' => 'get', 'class' => 'flex item-center gap-2 flex-wrap']) ?>
-        <select name="search[idTipoMovimiento]" class="select select-bordered w-full max-w-xs">
-            <option value="" selected>Tipos de movimientos</option>
-            <?php foreach ($typesTransactions as $transactionType): ?>
-                <option value="<?= esc($transactionType['idTipoMovimiento']) ?>"><?= esc($transactionType['nombre']) ?></option>
-            <?php endforeach ?>
-        </select>
+    <?= form_open(current_url(), ['method' => 'get', 'class' => 'flex items-end gap-2 flex-wrap']) ?>
+        <label class="form-control w-full max-w-xs">
+            <div class="label">
+                <span class="label-text">Tipo de movimiento:</span>
+            </div>
+            <select name="search[idTipoMovimiento]" class="select select-bordered">
+                <option value="" selected>Todos</option>
+                <?php foreach ($typesTransactions as $transactionType): ?>
+                    <option
+                        value="<?= esc($transactionType['idTipoMovimiento']) ?>"
+                        <?= $transactionType['idTipoMovimiento'] === $filters['search[idTipoMovimiento]'] ? 'selected' : '' ?>>
+                        <?= esc($transactionType['nombre']) ?>
+                    </option>
+                <?php endforeach ?>
+            </select>
+        </label>
 
         <button type="submit" class="btn btn-secondary text-neutral-content">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
@@ -22,6 +31,13 @@
             </svg>
             Filtrar
         </button>
+
+        <a href="<?= url_to('transactions.index') ?>" class="btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+            </svg>
+            Limpiar
+        </a>
     <?= form_close() ?>
 
     <!-- Tabla de movimientos -->
