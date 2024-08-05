@@ -10,11 +10,11 @@ class AlertMessageCell extends Cell
     public $message = '';
     public $type    = 'default';
     private $class  = [
-        'default' => '',
-        'info'    => 'alert-info',
-        'success' => 'alert-success',
-        'warning' => 'alert-warning',
-        'error'   => 'alert-error',
+        'default' => 'alert',
+        'info'    => 'alert alert-info',
+        'success' => 'alert alert-success',
+        'warning' => 'alert alert-warning',
+        'error'   => 'alert alert-error',
     ];
 
     public function getClassProperty(): string

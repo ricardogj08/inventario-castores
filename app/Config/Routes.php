@@ -13,12 +13,12 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('logout', 'AutenticacionController::logoutAction', ['as' => 'autenticacion.logoutAction']);
 
     $routes->group('', ['filter' => 'auth-admin'], static function ($routes) {
-        $routes->get('productos/nuevo', 'ProductoController::new', ['as' => 'productos.new']);
-        $routes->post('productos/crear', 'ProductoController::create', ['as' => 'productos.create']);
+        $routes->get('inventario/nuevo', 'ProductoController::new', ['as' => 'productos.new']);
+        $routes->post('inventario/crear', 'ProductoController::create', ['as' => 'productos.create']);
         $routes->get('movimientos', 'MovimientoController::index', ['as' => 'movimientos.index']);
     });
 
     $routes->get('inventario', 'ProductoController::index', ['as' => 'productos.index']);
-    $routes->get('productos/editar/(:num)', 'ProductoController::edit/$1', ['as' => 'productos.edit']);
-    $routes->post('productos/actualizar/(:num)', 'ProductoController::update/$1', ['as' => 'productos.update']);
+    $routes->get('inventario/editar/(:num)', 'ProductoController::edit/$1', ['as' => 'productos.edit']);
+    $routes->post('inventario/actualizar/(:num)', 'ProductoController::update/$1', ['as' => 'productos.update']);
 });

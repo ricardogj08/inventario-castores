@@ -49,4 +49,64 @@ class MovimientoModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    // Obtiene el nombre de la tabla de productos.
+    public function getProductoTableName()
+    {
+        return model(ProductoModel::class)->table;
+    }
+
+    // Obtiene el nombre de la llave primaria de la tabla de productos.
+    public function getProductoTablePrimaryKey()
+    {
+        return model(ProductoModel::class)->primaryKey;
+    }
+
+    // Relaciona la tabla de productos.
+    public function producto()
+    {
+        $productoTableName = $this->getProductoTableName();
+
+        return $this->join($productoTableName, "{$this->table}.idProducto = {$productoTableName}.{$this->getProductoTablePrimaryKey()}", 'inner');
+    }
+
+    // Obtiene el nombre de la tabla de tipos de movimientos de los productos.
+    public function getTipoMovimientoTableName()
+    {
+        return model(TipoMovimientoModel::class)->table;
+    }
+
+    // Obtiene el nombre de la llave primaria de la tabla de tipos de movimientos de los productos.
+    public function getTipoMovimientoTablePrimaryKey()
+    {
+        return model(TipoMovimientoModel::class)->primaryKey;
+    }
+
+    // Relaciona la tabla de tipos de movimientos de los productos.
+    public function tipo()
+    {
+        $tipoMovimientoTableName = $this->getTipoMovimientoTableName();
+
+        return $this->join($tipoMovimientoTableName, "{$this->table}.idTipoMovimiento = {$tipoMovimientoTableName}.{$this->getTipoMovimientoTablePrimaryKey()}", 'inner');
+    }
+
+    // Obtiene el nombre de la tabla de usuarios.
+    public function getUsuarioTableName()
+    {
+        return model(UsuarioModel::class)->table;
+    }
+
+    // Obtiene el nombre de la llave primaria de la tabla de usuarios.
+    public function getUsuarioTablePrimaryKey()
+    {
+        return model(UsuarioModel::class)->primaryKey;
+    }
+
+    // Relaciona la tabla de usuarios.
+    public function usuario()
+    {
+        $usuarioTableName = $this->getUsuarioTableName();
+
+        return $this->join($usuarioTableName, "{$this->table}.idUsuario = {$usuarioTableName}.{$this->getUsuarioTablePrimaryKey()}", 'inner');
+    }
 }
