@@ -39,7 +39,7 @@ Edita el archivo de configuración `.env` y descomente cada opción requerida:
 
 ## Base de datos
 
-El archivo `SCRIPTS/database.sql` contiene el script para crear la base de datos de la aplicación.
+El archivo `SCRIPTS/inventario.sql` contiene el script para crear la base de datos de la aplicación.
 
 * [Diagrama relacional de la base de datos.](https://drive.google.com/file/d/1vTed8ghK5EeRyqZ5mkTiN1dQWNctJI5B/view?usp=sharing)
 
