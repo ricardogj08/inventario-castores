@@ -89,7 +89,7 @@
                     required
                     step="1"
                     min="0"
-                    max="<?= $userAuthRole === 'Almacenista' && $product['cantidad'] > 0 ? esc($product['cantidad']) : '' ?>"
+                    max="<?= $userAuthRole === 'Almacenista' && $product['cantidad'] >= 0 ? esc($product['cantidad']) : '' ?>"
                     value="<?= set_value('cantidad', 0) ?>"
                     placeholder="0"
                     class="input input-bordered w-full">
