@@ -11,8 +11,8 @@
     <?= form_open(current_url(), ['method' => 'get', 'class' => 'flex item-center gap-2 flex-wrap']) ?>
         <select name="search[idTipoMovimiento]" class="select select-bordered w-full max-w-xs">
             <option selected>Tipos de movimientos</option>
-            <?php foreach ($typesTransactions as $typeTransaction): ?>
-                <option value="<?= esc($typeTransaction['id']) ?>"><?= esc($typeTransaction['nombre']) ?></option>
+            <?php foreach ($typesTransactions as $transactionType): ?>
+                <option value="<?= esc($transactionType['idTipoMovimiento']) ?>"><?= esc($transactionType['nombre']) ?></option>
             <?php endforeach ?>
         </select>
 
@@ -35,12 +35,13 @@
                     <th>Tipo</th>
                     <th>Usuario</th>
                     <th>Fecha de registro</th>
+                    <th>Fecha de Modificación</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($transactions as $transaction): ?>
                     <tr class="hover">
-                        <th><?= esc($transaction['id']) ?></th>
+                        <th><?= esc($transaction['idMovimiento']) ?></th>
                         <td><?= esc($transaction['producto']) ?></td>
                         <td><?= esc($transaction['cantidad']) ?></td>
                         <td>
@@ -54,6 +55,7 @@
                         </td>
                         <td><?= esc($transaction['usuario']) ?></td>
                         <td><?= esc($transaction['fecha_registro']) ?></td>
+                        <td><?= esc($transaction['fecha_modificacion']) ?></td>
                     </tr>
                 <?php endforeach ?>
             </tbody>
