@@ -28,7 +28,7 @@
                     name="nombre"
                     required
                     maxlength="40"
-                    <?= $userAuthRol === 'Almacenista' ? 'disabled' : '' ?>
+                    <?= $userAuthRole === 'Almacenista' ? 'disabled' : '' ?>
                     value="<?= set_value('nombre', $product['nombre']) ?>"
                     placeholder="Escribe el nombre del producto"
                     class="input input-bordered w-full">
@@ -46,7 +46,7 @@
                     name="precio"
                     required
                     pattern="^\d{1,14}(\.\d{1,2})?$"
-                    <?= $userAuthRol === 'Almacenista' ? 'disabled' : '' ?>
+                    <?= $userAuthRole === 'Almacenista' ? 'disabled' : '' ?>
                     value="<?= set_value('precio', $product['precio']) ?>"
                     placeholder="$ 0.00"
                     class="input input-bordered w-full">
@@ -80,7 +80,7 @@
             <label class="form-control w-full">
                 <div class="label">
                     <span class="label-text">
-                        <?= $userAuthRol === 'Administrador' ? 'Cantidad de entrada' : 'Cantidad de salida' ?>:
+                        <?= $userAuthRole === 'Administrador' ? 'Cantidad de entrada' : 'Cantidad de salida' ?>:
                     </span>
                 </div>
                 <input
@@ -89,7 +89,7 @@
                     required
                     step="1"
                     min="0"
-                    max="<?= $userAuthRol === 'Almacenista' && $product['cantidad'] > 0 ? esc($product['cantidad']) : '' ?>"
+                    max="<?= $userAuthRole === 'Almacenista' && $product['cantidad'] > 0 ? esc($product['cantidad']) : '' ?>"
                     value="<?= set_value('cantidad', 0) ?>"
                     placeholder="0"
                     class="input input-bordered w-full">
@@ -107,7 +107,7 @@
                     <input
                         type="checkbox"
                         name="estatus"
-                        <?= $userAuthRol === 'Almacenista' ? 'disabled' : '' ?>
+                        <?= $userAuthRole === 'Almacenista' ? 'disabled' : '' ?>
                         value="1"
                         <?= empty($product['estatus']) ? '' : 'checked' ?>
                         class="toggle">

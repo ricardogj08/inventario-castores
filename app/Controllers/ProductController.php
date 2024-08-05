@@ -70,17 +70,17 @@ class ProductController extends BaseController
 
         $query = $productModel->select('idProducto, nombre, precio, cantidad, estatus, fecha_registro, fecha_modificacion');
 
-        $userAuthRol = session('userAuth.rol');
+        $userAuthRole = session('userAuth.rol');
 
         // Filtra los productos dependiendo del rol del usuario.
-        if ($userAuthRol === 'Almacenista') {
+        if ($userAuthRole === 'Almacenista') {
             $query->where('estatus', 1);
         }
 
         // Consulta todos los productos registrados.
         $products = $query->orderBy('fecha_registro', 'DESC')->findAll();
 
-        $data = compact('products');
+        $data = compact('products', 'userAuthRole');
 
         return view('products/index', $data);
     }
@@ -92,10 +92,10 @@ class ProductController extends BaseController
 
         $query = $productModel->select('idProducto, nombre, precio, cantidad, estatus, fecha_registro');
 
-        $userAuthRol = session('userAuth.rol');
+        $userAuthRole = session('userAuth.rol');
 
         // Filtra la búsqueda del producto dependiendo del rol del usuario.
-        if ($userAuthRol === 'Almacenista') {
+        if ($userAuthRole === 'Almacenista') {
             $query->where('estatus', 1);
         }
 
@@ -110,7 +110,7 @@ class ProductController extends BaseController
 
         helper('form');
 
-        $data = compact('userAuthRol', 'product');
+        $data = compact('userAuthRole', 'product');
 
         return view('products/edit', $data);
     }
@@ -237,10 +237,10 @@ class ProductController extends BaseController
 
         $query = $productModel->select('idProducto, cantidad');
 
-        $userAuthRol = session('userAuth.rol');
+        $userAuthRole = session('userAuth.rol');
 
         // Filtra la búsqueda del producto dependiendo del rol del usuario.
-        if ($userAuthRol === 'Almacenista') {
+        if ($userAuthRole === 'Almacenista') {
             $query->where('estatus', 1);
         }
 
@@ -254,7 +254,7 @@ class ProductController extends BaseController
         }
 
         // Modifica la información del producto dependiendo del rol del usuario.
-        if ($userAuthRol === 'Administrador') {
+        if ($userAuthRole === 'Administrador') {
             return $this->updateFromAdmin($product);
         }
 
