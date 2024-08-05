@@ -3,9 +3,19 @@
 namespace App\Controllers;
 
 use App\Models\MovimientoModel;
+use App\Models\TipoMovimientoModel;
 
 class MovimientoController extends BaseController
 {
+    private function getSearchValidationRules()
+    {
+        $movimientoModel = model(MovimientoModel::class);
+
+        return [
+            'search[idTipoMovimiento]' => "permit_empty|is_natural_no_zero|is_not_unique[{$movimientoModel->getTipoMovimientoTableName()}.{$movimientoModel->getTipoMovimientoTablePrimaryKey()}]",
+        ];
+    }
+
     // Renderiza la página de todos los movimientos de los productos.
     public function index()
     {
@@ -18,10 +28,27 @@ class MovimientoController extends BaseController
             ->tipo()
             ->usuario();
 
+        $rules = $this->getSearchValidationRules();
+
+        $filters = $this->request->getGet(array_keys($rules));
+
+        if (! empty($filters['search[idTipoMovimiento]'])) {
+            $query->where("{$movimientoTableName}.idTipoMovimiento", $filters['search[idTipoMovimiento]']);
+        }
+
         // Consulta todos los movimientos.
         $transactions = $query->orderBy("{$movimientoTableName}.fecha_registro", 'DESC')->findAll();
 
-        $data = compact('transactions');
+        $tipoMovimientoModel = model(TipoMovimientoModel::class);
+
+        // Consulta la información de todos los tipos de movimientos.
+        $typesTransactions = $tipoMovimientoModel->select("{$tipoMovimientoModel->primaryKey} AS id, nombre")
+            ->orderBy('nombre', 'ASC')
+            ->findAll();
+
+        $data = compact('transactions', 'typesTransactions');
+
+        helper('form');
 
         return view('movimientos/index', $data);
     }
