@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\MovimientoModel;
 use App\Models\ProductoModel;
+use App\Models\TipoMovimientoModel;
 
 class ProductoController extends BaseController
 {
@@ -140,11 +142,32 @@ class ProductoController extends BaseController
             $data['estatus'] = 0;
         }
 
+        $amount = $data['cantidad'];
+
         // Suma la cantidad de productos.
         $data['cantidad'] += $product['cantidad'];
 
         // Modifica la información del producto.
         $productoModel->update($product['id'], $data);
+
+        if (! empty($amount)) {
+            $tipoMovimientoModel = model(TipoMovimientoModel::class);
+
+            // Consulta la información del tipo de movimiento.
+            $type = $tipoMovimientoModel->select("{$tipoMovimientoModel->primaryKey} AS id")
+                ->where('nombre', 'Entrada')
+                ->first();
+
+            $movimientoModel = model(MovimientoModel::class);
+
+            // Registra el movimiento del producto.
+            $movimientoModel->insert([
+                'idProducto'       => $product['id'],
+                'idTipoMovimiento' => $type['id'],
+                'idUsuario'        => session('userAuth.id'),
+                'cantidad'         => $amount,
+            ]);
+        }
 
         return redirect()->route('productos.index')
             ->with('success', 'El producto se ha modificado correctamente');
@@ -172,13 +195,34 @@ class ProductoController extends BaseController
             return redirect()->route('productos.edit', [$product['id']])->withInput();
         }
 
+        $amount = $data['cantidad'];
+
         // Resta la cantidad de productos.
-        $data['cantidad'] = $product['cantidad'] - $data['cantidad'];
+        $data['cantidad'] = $product['cantidad'] - $amount;
 
         $productoModel = model(ProductoModel::class);
 
         // Modifica la información del producto.
         $productoModel->update($product['id'], $data);
+
+        if (! empty($amount)) {
+            $tipoMovimientoModel = model(TipoMovimientoModel::class);
+
+            // Consulta la información del tipo de movimiento.
+            $type = $tipoMovimientoModel->select("{$tipoMovimientoModel->primaryKey} AS id")
+                ->where('nombre', 'Salida')
+                ->first();
+
+            $movimientoModel = model(MovimientoModel::class);
+
+            // Registra el movimiento del producto.
+            $movimientoModel->insert([
+                'idProducto'       => $product['id'],
+                'idTipoMovimiento' => $type['id'],
+                'idUsuario'        => session('userAuth.id'),
+                'cantidad'         => $amount,
+            ]);
+        }
 
         return redirect()->route('productos.index')
             ->with('success', 'El producto se ha modificado correctamente');
