@@ -51,7 +51,7 @@ class AuthController extends BaseController
         }
 
         // Genera la cookie de autenticación (24 horas).
-        service('response')->setCookie('userAuth', $user['idUsuario'], 60 * 60 * 24);
+        $this->response->setCookie('userAuth', $user['idUsuario'], 60 * 60 * 24);
 
         return redirect()->route('products.index')->withCookies();
     }
@@ -59,7 +59,9 @@ class AuthController extends BaseController
     // Cierra la sesión de un usuario.
     public function logoutAction()
     {
-        service('response')->deleteCookie('userAuth');
+        $this->response->deleteCookie('userAuth');
+
+        session()->remove('userAuth');
 
         return redirect()->route('auth.loginView')->withCookies();
     }

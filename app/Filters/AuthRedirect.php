@@ -2,13 +2,12 @@
 
 namespace App\Filters;
 
-use App\Models\UserModel;
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
-// Valida si un usuario está autenticado.
-class AuthFilter implements FilterInterface
+// Redirecciona si un usuario está autenticado.
+class AuthRedirect implements FilterInterface
 {
     /**
      * Do whatever processing this filter needs to do.
@@ -26,32 +25,10 @@ class AuthFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        // Obtiene la cookie del usuario autenticado.
-        $cookie = request()->getCookie('userAuth');
-
-        if (empty($cookie)) {
-            return redirect()->route('auth.loginView')
-                ->with('warning', 'Ingresa tus credenciales de acceso');
+        if (! empty(request()->getCookie('userAuth')) || ! empty(session('userAuth'))) {
+            return redirect()->route('products.index')
+                ->with('default', 'Ya cuentas con una sesión activa');
         }
-
-        $userModel = model(UserModel::class);
-
-        // Consulta la información del usuario autenticado.
-        $userAuth = $userModel->select('usuarios.idUsuario, usuarios.nombre, roles.nombre AS rol')
-            ->role()
-            ->where('usuarios.estatus', 1)
-            ->find($cookie);
-
-        // Roles permitidos en la aplicación.
-        $allowedRoles = ['Administrador', 'Almacenista'];
-
-        if (empty($userAuth) || ! in_array($userAuth['rol'], $allowedRoles, true)) {
-            return redirect()->route('auth.loginView')
-                ->with('error', 'Acceso denegado al sistema');
-        }
-
-        // Almacena la información del usuario durante la sesión.
-        session()->set('userAuth', $userAuth);
     }
 
     /**

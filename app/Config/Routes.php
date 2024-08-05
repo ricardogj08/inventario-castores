@@ -6,8 +6,11 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 // $routes->get('/', 'Home::index');
-$routes->get('login', 'AuthController::loginView', ['as' => 'auth.loginView']);
-$routes->post('login', 'AuthController::loginAction', ['as' => 'auth.loginAction']);
+
+$routes->group('', ['filter' => 'auth-redirect'], static function ($routes) {
+    $routes->get('login', 'AuthController::loginView', ['as' => 'auth.loginView']);
+    $routes->post('login', 'AuthController::loginAction', ['as' => 'auth.loginAction']);
+});
 
 $routes->addRedirect('/', 'auth.loginView');
 
