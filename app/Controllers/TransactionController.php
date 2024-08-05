@@ -2,11 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Models\MovimientoModel;
-use App\Models\TipoMovimientoModel;
+use App\Models\TransactionModel;
+use App\Models\TransactionTypeModel;
 
 class TransactionController extends BaseController
 {
+    // Reglas de validación de filtrado.
     private function getSearchValidationRules()
     {
         return [
@@ -17,16 +18,18 @@ class TransactionController extends BaseController
     // Renderiza la página de todos los movimientos de los productos.
     public function index()
     {
-        $transactionModel = model(MovimientoModel::class);
+        $transactionModel = model(TransactionModel::class);
 
         $query = $transactionModel->select('movimientos.idMovimiento, productos.nombre AS producto, movimientos.cantidad, tipos_movimientos.nombre AS tipo, usuarios.nombre AS usuario, movimientos.fecha_registro, movimientos.fecha_modificacion')
-            ->producto()
-            ->tipo()
-            ->usuario();
+            ->product()
+            ->type()
+            ->user();
 
         $rules = $this->getSearchValidationRules();
 
         $filters = $this->request->getGet(array_keys($rules));
+
+        // Valida los campos de filtrado.
 
         if (! empty($filters['search[idTipoMovimiento]'])) {
             $query->where('movimientos.idTipoMovimiento', $filters['search[idTipoMovimiento]']);
@@ -35,7 +38,7 @@ class TransactionController extends BaseController
         // Consulta todos los movimientos.
         $transactions = $query->orderBy('movimientos.fecha_registro', 'DESC')->findAll();
 
-        $transactionTypeModel = model(TipoMovimientoModel::class);
+        $transactionTypeModel = model(TransactionTypeModel::class);
 
         // Consulta la información de todos los tipos de movimientos.
         $typesTransactions = $transactionTypeModel->select('idTipoMovimiento, nombre')

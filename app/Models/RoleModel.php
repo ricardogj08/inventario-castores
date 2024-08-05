@@ -4,14 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class TipoMovimientoModel extends Model
+// Modelo que representa la tabla de roles de los usuarios.
+class RoleModel extends Model
 {
-    protected $table = 'tipos_movimientos';
+    protected $table = 'roles';
 
-    // protected $primaryKey       = 'id';
-    protected $primaryKey = 'idTipoMovimiento';
+    // protected $primaryKey = 'id';
+    protected $primaryKey = 'idRol';
 
-    // protected $useAutoIncrement       = true;
+    // protected $useAutoIncrement = true;
     protected $useAutoIncrement       = false;
     protected $returnType             = 'array';
     protected $useSoftDeletes         = false;

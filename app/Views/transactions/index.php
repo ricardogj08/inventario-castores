@@ -10,7 +10,7 @@
     <!-- Formulario de los filtros de búsqueda -->
     <?= form_open(current_url(), ['method' => 'get', 'class' => 'flex item-center gap-2 flex-wrap']) ?>
         <select name="search[idTipoMovimiento]" class="select select-bordered w-full max-w-xs">
-            <option selected>Tipos de movimientos</option>
+            <option value="" selected>Tipos de movimientos</option>
             <?php foreach ($typesTransactions as $transactionType): ?>
                 <option value="<?= esc($transactionType['idTipoMovimiento']) ?>"><?= esc($transactionType['nombre']) ?></option>
             <?php endforeach ?>

@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
-use App\Models\MovimientoModel;
-use App\Models\ProductoModel;
-use App\Models\TipoMovimientoModel;
+use App\Models\ProductModel;
+use App\Models\TransactionModel;
+use App\Models\TransactionTypeModel;
 
 class ProductController extends BaseController
 {
@@ -54,7 +54,7 @@ class ProductController extends BaseController
         // Elimina espacios sobrantes.
         $data['nombre'] = reduce_multiples($data['nombre'], ' ', true);
 
-        $productModel = model(ProductoModel::class);
+        $productModel = model(ProductModel::class);
 
         // Registra el nuevo producto.
         $productModel->insert($data);
@@ -66,7 +66,7 @@ class ProductController extends BaseController
     // Renderiza la página de todos los productos.
     public function index()
     {
-        $productModel = model(ProductoModel::class);
+        $productModel = model(ProductModel::class);
 
         $query = $productModel->select('idProducto, nombre, precio, cantidad, estatus, fecha_registro, fecha_modificacion');
 
@@ -88,7 +88,7 @@ class ProductController extends BaseController
     // Renderiza la página del formulario de edición de productos.
     public function edit(int $id)
     {
-        $productModel = model(ProductoModel::class);
+        $productModel = model(ProductModel::class);
 
         $query = $productModel->select('idProducto, nombre, precio, cantidad, estatus, fecha_registro');
 
@@ -146,20 +146,20 @@ class ProductController extends BaseController
         // Suma la cantidad de productos.
         $data['cantidad'] += $product['cantidad'];
 
-        $productModel = model(ProductoModel::class);
+        $productModel = model(ProductModel::class);
 
         // Modifica la información del producto.
         $productModel->update($product['idProducto'], $data);
 
         if (! empty($amount)) {
-            $transactionTypeModel = model(TipoMovimientoModel::class);
+            $transactionTypeModel = model(TransactionTypeModel::class);
 
             // Consulta la información del tipo de movimiento.
             $transactionType = $transactionTypeModel->select('idTipoMovimiento')
                 ->where('nombre', 'Entrada')
                 ->first();
 
-            $transactionModel = model(MovimientoModel::class);
+            $transactionModel = model(TransactionModel::class);
 
             // Registra el movimiento del producto.
             $transactionModel->insert([
@@ -202,20 +202,20 @@ class ProductController extends BaseController
         // Resta la cantidad de productos.
         $data['cantidad'] = $product['cantidad'] - $amount;
 
-        $productModel = model(ProductoModel::class);
+        $productModel = model(ProductModel::class);
 
         // Modifica la información del producto.
         $productModel->update($product['idProducto'], $data);
 
         if (! empty($amount)) {
-            $transactionTypeModel = model(TipoMovimientoModel::class);
+            $transactionTypeModel = model(TransactionTypeModel::class);
 
             // Consulta la información del tipo de movimiento.
             $transactionType = $transactionTypeModel->select('idTipoMovimiento')
                 ->where('nombre', 'Salida')
                 ->first();
 
-            $movimientoModel = model(MovimientoModel::class);
+            $movimientoModel = model(TransactionModel::class);
 
             // Registra el movimiento del producto.
             $movimientoModel->insert([
@@ -233,7 +233,7 @@ class ProductController extends BaseController
     // Modifica la información de un producto.
     public function update(int $id)
     {
-        $productModel = model(ProductoModel::class);
+        $productModel = model(ProductModel::class);
 
         $query = $productModel->select('idProducto, cantidad');
 

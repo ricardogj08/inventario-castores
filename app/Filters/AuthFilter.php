@@ -2,7 +2,7 @@
 
 namespace App\Filters;
 
-use App\Models\UsuarioModel;
+use App\Models\UserModel;
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -34,11 +34,11 @@ class AuthFilter implements FilterInterface
                 ->with('warning', 'Ingresa tus credenciales de acceso');
         }
 
-        $userModel = model(UsuarioModel::class);
+        $userModel = model(UserModel::class);
 
         // Consulta la información del usuario autenticado.
         $userAuth = $userModel->select('usuarios.idUsuario, usuarios.nombre, roles.nombre AS rol')
-            ->rol()
+            ->role()
             ->where('usuarios.estatus', 1)
             ->find($cookie);
 

@@ -4,34 +4,31 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-// Modelo que representa la tabla de productos.
-class ProductoModel extends Model
+// Modelo que representa la tabla de usuarios.
+class UserModel extends Model
 {
-    protected $table = 'productos';
+    protected $table = 'usuarios';
 
-    // protected $primaryKey             = 'id';
-    protected $primaryKey             = 'idProducto';
-    protected $useAutoIncrement       = true;
+    // protected $primaryKey = 'id';
+    protected $primaryKey = 'idUsuario';
+
+    // protected $useAutoIncrement       = true;
+    protected $useAutoIncrement       = false;
     protected $returnType             = 'array';
     protected $useSoftDeletes         = false;
     protected $protectFields          = true;
-    protected $allowedFields          = ['nombre', 'precio', 'cantidad', 'estatus'];
+    protected $allowedFields          = ['correo', 'idRol', 'nombre', 'contrasena', 'estatus'];
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
     protected array $casts            = [];
     protected array $castHandlers     = [];
 
     // Dates
-    // protected $useTimestamps = false;
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
     protected $dateFormat    = 'datetime';
-
-    // protected $createdField  = 'created_at';
-    protected $createdField = 'fecha_registro';
-
-    // protected $updatedField  = 'updated_at';
-    protected $updatedField = 'fecha_modificacion';
-    protected $deletedField = 'deleted_at';
+    protected $createdField  = 'created_at';
+    protected $updatedField  = 'updated_at';
+    protected $deletedField  = 'deleted_at';
 
     // Validation
     protected $validationRules      = [];
@@ -49,4 +46,10 @@ class ProductoModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    // Relaciona la tabla de roles de los usuarios.
+    public function role()
+    {
+        return $this->join('roles', 'usuarios.idRol = roles.idRol', 'inner');
+    }
 }

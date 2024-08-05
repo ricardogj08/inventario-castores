@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\UsuarioModel;
+use App\Models\UserModel;
 
 class AuthController extends BaseController
 {
@@ -36,7 +36,7 @@ class AuthController extends BaseController
             return redirect()->route('auth.loginView')->withInput();
         }
 
-        $userModel = model(UsuarioModel::class);
+        $userModel = model(UserModel::class);
 
         // Consulta la información del usuario.
         $user = $userModel->select('idUsuario, contrasena')
