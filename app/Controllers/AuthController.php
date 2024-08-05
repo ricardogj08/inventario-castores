@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\UsuarioModel;
 
-class AutenticacionController extends BaseController
+class AuthController extends BaseController
 {
     // Reglas de validación del formulario de inicio de sesión.
     private function getValidationRules()
@@ -22,7 +22,7 @@ class AutenticacionController extends BaseController
     {
         helper('form');
 
-        return view('autenticacion/login');
+        return view('auth/login');
     }
 
     // Inicia la sesión de un usuario.

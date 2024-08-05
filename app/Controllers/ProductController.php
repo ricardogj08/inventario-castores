@@ -6,7 +6,7 @@ use App\Models\MovimientoModel;
 use App\Models\ProductoModel;
 use App\Models\TipoMovimientoModel;
 
-class ProductoController extends BaseController
+class ProductController extends BaseController
 {
     // Reglas de validación.
     private function getValidationsRules()
@@ -24,7 +24,7 @@ class ProductoController extends BaseController
     {
         helper('form');
 
-        return view('productos/new');
+        return view('products/new');
     }
 
     // Registra un nuevo producto.
@@ -82,7 +82,7 @@ class ProductoController extends BaseController
 
         $data = compact('products');
 
-        return view('productos/index', $data);
+        return view('products/index', $data);
     }
 
     // Renderiza la página del formulario de edición de productos.
@@ -112,7 +112,7 @@ class ProductoController extends BaseController
 
         $data = compact('userAuthRol', 'product');
 
-        return view('productos/edit', $data);
+        return view('products/edit', $data);
     }
 
     // Modifica la información de un producto como administrador.

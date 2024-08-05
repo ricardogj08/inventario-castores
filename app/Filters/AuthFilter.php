@@ -8,7 +8,7 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
 // Valida si un usuario está autenticado.
-class AutenticacionFilter implements FilterInterface
+class AuthFilter implements FilterInterface
 {
     /**
      * Do whatever processing this filter needs to do.

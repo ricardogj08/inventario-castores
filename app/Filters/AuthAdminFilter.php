@@ -7,7 +7,7 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
 // Valida si un usuario es administrador.
-class AutenticacionAdminFilter implements FilterInterface
+class AuthAdminFilter implements FilterInterface
 {
     /**
      * Do whatever processing this filter needs to do.

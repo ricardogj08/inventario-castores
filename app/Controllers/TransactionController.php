@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\MovimientoModel;
 use App\Models\TipoMovimientoModel;
 
-class MovimientoController extends BaseController
+class TransactionController extends BaseController
 {
     private function getSearchValidationRules()
     {
@@ -50,6 +50,6 @@ class MovimientoController extends BaseController
 
         helper('form');
 
-        return view('movimientos/index', $data);
+        return view('transactions/index', $data);
     }
 }
