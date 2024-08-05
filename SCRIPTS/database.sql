@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `productos` (
     `cantidad` SMALLINT(4) UNSIGNED NOT NULL DEFAULT 0,
     `estatus` INT(1) UNSIGNED NOT NULL DEFAULT 1,
     `fecha_registro` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `fecha_modificacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `productos_idProducto_primario` PRIMARY KEY(`idProducto`),
     CONSTRAINT `productos_nombre_unico` UNIQUE(`nombre`)
 );
@@ -58,6 +59,7 @@ CREATE TABLE IF NOT EXISTS `movimientos` (
     `idUsuario` INT(6) UNSIGNED NOT NULL,
     `cantidad` SMALLINT(4) UNSIGNED NOT NULL,
     `fecha_registro` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `fecha_modificacion` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `movimientos_idMovimiento_primario` PRIMARY KEY(`idMovimiento`),
     CONSTRAINT `movimientos_idProducto_foraneo` FOREIGN KEY(`idProducto`)
         REFERENCES `productos`(`idProducto`)

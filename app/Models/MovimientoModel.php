@@ -30,7 +30,7 @@ class MovimientoModel extends Model
     protected $createdField = 'fecha_registro';
 
     // protected $updatedField  = 'updated_at';
-    protected $updatedField = '';
+    protected $updatedField = 'fecha_modificacion';
     protected $deletedField = 'deleted_at';
 
     // Validation
