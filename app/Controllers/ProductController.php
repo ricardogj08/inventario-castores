@@ -30,18 +30,16 @@ class ProductController extends BaseController
     // Registra un nuevo producto.
     public function create()
     {
-        $fields = ['nombre', 'precio'];
-
         $rules = [];
+
+        $fields = ['nombre', 'precio'];
 
         foreach ($fields as $field) {
             $rules[$field] = $this->getValidationsRules()[$field];
         }
 
-        $productoModel = model(ProductoModel::class);
-
         // Valida que el nombre sea único.
-        $rules['nombre'] .= "|is_unique[{$productoModel->table}.nombre]";
+        $rules['nombre'] .= '|is_unique[productos.nombre]';
 
         // Obtiene solo los campos permitidos.
         $data = $this->request->getPost($fields);
@@ -56,8 +54,10 @@ class ProductController extends BaseController
         // Elimina espacios sobrantes.
         $data['nombre'] = reduce_multiples($data['nombre'], ' ', true);
 
+        $productModel = model(ProductoModel::class);
+
         // Registra el nuevo producto.
-        $productoModel->insert($data);
+        $productModel->insert($data);
 
         return redirect()->route('products.index')
             ->with('success', 'El producto se ha registrado correctamente');
@@ -66,9 +66,9 @@ class ProductController extends BaseController
     // Renderiza la página de todos los productos.
     public function index()
     {
-        $productoModel = model(ProductoModel::class);
+        $productModel = model(ProductoModel::class);
 
-        $query = $productoModel->select("{$productoModel->primaryKey} AS id, nombre, precio, cantidad, estatus, fecha_registro");
+        $query = $productModel->select('idProducto, nombre, precio, cantidad, estatus, fecha_registro, fecha_modificacion');
 
         $userAuthRol = session('userAuth.rol');
 
@@ -88,9 +88,9 @@ class ProductController extends BaseController
     // Renderiza la página del formulario de edición de productos.
     public function edit(int $id)
     {
-        $productoModel = model(ProductoModel::class);
+        $productModel = model(ProductoModel::class);
 
-        $query = $productoModel->select("{$productoModel->primaryKey} AS id, nombre, precio, cantidad, estatus, fecha_registro");
+        $query = $productModel->select('idProducto, nombre, precio, cantidad, estatus, fecha_registro');
 
         $userAuthRol = session('userAuth.rol');
 
@@ -120,17 +120,15 @@ class ProductController extends BaseController
     {
         $rules = $this->getValidationsRules();
 
-        $productoModel = model(ProductoModel::class);
-
         // Valida que el nombre sea único a excepción de el mismo.
-        $rules['nombre'] .= "|is_unique[{$productoModel->table}.nombre,{$productoModel->primaryKey},{$product['id']}]";
+        $rules['nombre'] .= "|is_unique[productos.nombre,idProducto,{$product['idProducto']}]";
 
         // Obtiene solo los campos permitidos.
         $data = $this->request->getPost(array_keys($rules));
 
         // Valida los campos del formulario.
         if (! $this->validateData($data, $rules)) {
-            return redirect()->route('products.edit', [$product['id']])->withInput();
+            return redirect()->route('products.edit', [$product['idProducto']])->withInput();
         }
 
         helper('text');
@@ -142,29 +140,32 @@ class ProductController extends BaseController
             $data['estatus'] = 0;
         }
 
+        // Cantidad de productos agregados.
         $amount = $data['cantidad'];
 
         // Suma la cantidad de productos.
         $data['cantidad'] += $product['cantidad'];
 
+        $productModel = model(ProductoModel::class);
+
         // Modifica la información del producto.
-        $productoModel->update($product['id'], $data);
+        $productModel->update($product['idProducto'], $data);
 
         if (! empty($amount)) {
-            $tipoMovimientoModel = model(TipoMovimientoModel::class);
+            $transactionTypeModel = model(TipoMovimientoModel::class);
 
             // Consulta la información del tipo de movimiento.
-            $type = $tipoMovimientoModel->select("{$tipoMovimientoModel->primaryKey} AS id")
+            $transactionType = $transactionTypeModel->select('idTipoMovimiento')
                 ->where('nombre', 'Entrada')
                 ->first();
 
-            $movimientoModel = model(MovimientoModel::class);
+            $transactionModel = model(MovimientoModel::class);
 
             // Registra el movimiento del producto.
-            $movimientoModel->insert([
-                'idProducto'       => $product['id'],
-                'idTipoMovimiento' => $type['id'],
-                'idUsuario'        => session('userAuth.id'),
+            $transactionModel->insert([
+                'idProducto'       => $product['idProducto'],
+                'idTipoMovimiento' => $transactionType['idTipoMovimiento'],
+                'idUsuario'        => session('userAuth.idUsuario'),
                 'cantidad'         => $amount,
             ]);
         }
@@ -176,9 +177,9 @@ class ProductController extends BaseController
     // Modifica la información de un producto como Almacenista.
     private function updateFromStorer(array $product)
     {
-        $fields = ['cantidad'];
-
         $rules = [];
+
+        $fields = ['cantidad'];
 
         foreach ($fields as $field) {
             $rules[$field] = $this->getValidationsRules()[$field];
@@ -192,24 +193,25 @@ class ProductController extends BaseController
 
         // Valida los campos del formulario.
         if (! $this->validateData($data, $rules)) {
-            return redirect()->route('products.edit', [$product['id']])->withInput();
+            return redirect()->route('products.edit', [$product['idProducto']])->withInput();
         }
 
+        // Cantidad de productos a restar.
         $amount = $data['cantidad'];
 
         // Resta la cantidad de productos.
         $data['cantidad'] = $product['cantidad'] - $amount;
 
-        $productoModel = model(ProductoModel::class);
+        $productModel = model(ProductoModel::class);
 
         // Modifica la información del producto.
-        $productoModel->update($product['id'], $data);
+        $productModel->update($product['idProducto'], $data);
 
         if (! empty($amount)) {
-            $tipoMovimientoModel = model(TipoMovimientoModel::class);
+            $transactionTypeModel = model(TipoMovimientoModel::class);
 
             // Consulta la información del tipo de movimiento.
-            $type = $tipoMovimientoModel->select("{$tipoMovimientoModel->primaryKey} AS id")
+            $transactionType = $transactionTypeModel->select('idTipoMovimiento')
                 ->where('nombre', 'Salida')
                 ->first();
 
@@ -217,9 +219,9 @@ class ProductController extends BaseController
 
             // Registra el movimiento del producto.
             $movimientoModel->insert([
-                'idProducto'       => $product['id'],
-                'idTipoMovimiento' => $type['id'],
-                'idUsuario'        => session('userAuth.id'),
+                'idProducto'       => $product['idProducto'],
+                'idTipoMovimiento' => $transactionType['idTipoMovimiento'],
+                'idUsuario'        => session('userAuth.idUsuario'),
                 'cantidad'         => $amount,
             ]);
         }
@@ -231,9 +233,9 @@ class ProductController extends BaseController
     // Modifica la información de un producto.
     public function update(int $id)
     {
-        $productoModel = model(ProductoModel::class);
+        $productModel = model(ProductoModel::class);
 
-        $query = $productoModel->select("{$productoModel->primaryKey} AS id, cantidad");
+        $query = $productModel->select('idProducto, cantidad');
 
         $userAuthRol = session('userAuth.rol');
 

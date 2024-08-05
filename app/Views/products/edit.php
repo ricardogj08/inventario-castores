@@ -17,7 +17,7 @@
     <div class="divider"></div>
 
     <!-- Formulario de modificación de productos -->
-    <?= form_open(url_to('products.update', $product['id'])) ?>
+    <?= form_open(url_to('products.update', $product['idProducto'])) ?>
         <div class="grid md:grid-cols-2 gap-2 mb-2">
             <label class="form-control w-full">
                 <div class="label">
