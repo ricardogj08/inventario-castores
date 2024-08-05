@@ -36,11 +36,10 @@ class AutenticacionFilter implements FilterInterface
 
         $usuarioModel = model(UsuarioModel::class);
 
-        $usuarioTableName           = $usuarioModel->table;
-        $usuarioPrimaryKeyFieldName = $usuarioModel->primaryKey;
+        $usuarioTableName = $usuarioModel->table;
 
         // Consulta la información del usuario autenticado.
-        $userAuth = $usuarioModel->select("{$usuarioTableName}.{$usuarioPrimaryKeyFieldName}, {$usuarioTableName}.nombre, {$usuarioModel->getRolTableName()}.nombre AS rol")
+        $userAuth = $usuarioModel->select("{$usuarioTableName}.{$usuarioModel->primaryKey} AS id, {$usuarioTableName}.nombre, {$usuarioModel->getRolTableName()}.nombre AS rol")
             ->rol()
             ->where("{$usuarioTableName}.estatus", 1)
             ->find($cookie);

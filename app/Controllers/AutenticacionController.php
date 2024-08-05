@@ -40,10 +40,8 @@ class AutenticacionController extends BaseController
 
         $usuarioModel = model(UsuarioModel::class);
 
-        $primaryKeyFieldName = $usuarioModel->primaryKey;
-
         // Consulta la información del usuario.
-        $user = $usuarioModel->select([$primaryKeyFieldName, 'contrasena'])
+        $user = $usuarioModel->select("{$usuarioModel->primaryKey} AS id, contrasena")
             ->where('correo', trim($data['correo']))
             ->first();
 
@@ -55,7 +53,7 @@ class AutenticacionController extends BaseController
         }
 
         // Genera la cookie de autenticación (24 horas).
-        service('response')->setCookie('userAuth', $user[$primaryKeyFieldName], 60 * 60 * 24);
+        service('response')->setCookie('userAuth', $user['id'], 60 * 60 * 24);
 
         return redirect()->route('productos.index')->withCookies();
     }
